@@ -3,3 +3,4 @@ Modelo de Relatório Vizentec.txt
 classes/__pycache__/*
 .~lock.Análise Completa 08-04.csv#
 venv/*
+.idea/

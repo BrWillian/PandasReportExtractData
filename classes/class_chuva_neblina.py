@@ -25,14 +25,26 @@ class chuv_nebli:
             29: 'L descart', 30: 'L duvida', 31: 'ANTT', 32: 'GOINFRA'
         """
 
-    def total_images(self, key=0):
-        self._total = len(self._data[self._keys[key]])
-        return self._total
+    def total_images(self, data=None):
+        try:
+            total = len(data['Nome do Arquivo'])
+        except:
+            total = len(self._data['Nome do Arquivo'])
 
-    def with_problem(self):
-        data = self._data
+        result = {
+            'total': total
+        }
 
-        label = data['L chu neb']
+        return result
+
+    def with_problem(self, data=None):
+        data_problem = data
+
+        try:
+            label = data_problem['L chu neb']
+        except:
+            label = self._data['L chu neb']
+
         list_no_prob = list(filter(lambda x: not x, label))
         list_prob = list(filter(lambda x: x, label))
 
@@ -46,9 +58,16 @@ class chuv_nebli:
 
         return result
 
-    def classification(self):
-        data = merge_or(self._data, 'M CHUV NEB', 'M CHUVA', 'M NEBLI')
-        label = self._data['M CHUV NEB']
+    def classification(self, data=None):
+
+        data_problem = data
+
+        try:
+            data_problem = merge_or(data_problem, 'M CHUV NEB', 'M CHUVA', 'M NEBLI')
+            label = data_problem['M CHUV NEB']
+        except:
+            data_problem = merge_or(self._data, 'M CHUV NEB', 'M CHUVA', 'M NEBLI')
+            label = data_problem['M CHUV NEB']
 
         list_no_prob = list(filter(lambda x: not x, label))
         list_prob = list(filter(lambda x: x, label))
@@ -57,26 +76,58 @@ class chuv_nebli:
         percent_not_prob = round(len(list_no_prob) * 100 / len(label), 2)
 
         result = {
-            'classicfied': [len(list_prob), percent_prob],
+            'classified': [len(list_prob), percent_prob],
             'noclassified': [len(list_no_prob), percent_not_prob]
         }
 
         return result
 
-    def confusion_matrix(self):
+    def confusion_matrix(self, data=None):
+        data_problem = data
 
-        data = merge_or(self._data, 'M CHUV NEB', 'M CHUVA', 'M NEBLI')
-        data = data[['M CHUV NEB', 'L chu neb']]
+        try:
+            data_problem = merge_or(data_problem, 'M CHUV NEB', 'M CHUVA', 'M NEBLI')
+            data = data_problem[['M CHUV NEB', 'L chu neb']]
+        except:
+            data_problem = merge_or(self._data, 'M CHUV NEB', 'M CHUVA', 'M NEBLI')
+            data = data_problem[['M CHUV NEB', 'L chu neb']]
+
         y_true = list(data['M CHUV NEB'])
         y_pred = list(data['L chu neb'])
         tn, fp, fn, tp = confusion_matrix(y_true, y_pred).ravel()
 
+        total = len(data)
+
         result = {
-            'tn': [tn, round(tn * 100 / self.total_images(), 2)],
-            'fp': [fp, round(fp * 100 / self.total_images(), 2)],
-            'fn': [fn, round(fn * 100 / self.total_images(), 2)],
-            'tp': [tp, round(tp * 100 / self.total_images(), 2)],
-            'acc': round((tp + tn) / self.total_images() * 100, 2)
+            'tn': [tn, round(tn * 100 / total, 2)],
+            'fp': [fp, round(fp * 100 / total, 2)],
+            'fn': [fn, round(fn * 100 / total, 2)],
+            'tp': [tp, round(tp * 100 / total, 2)],
+            'acc': round((tp + tn) / total * 100, 2)
         }
+
+        return result
+
+    def misty_rain(self, *columns):
+        data = self._data
+        if len(columns) < 2:
+            data = data[(data[columns[0]] == True)]
+        else:
+            data = data[(data[columns[0]] == True) & (data[columns[1]] == True)]
+
+        total = self.total_images(data)
+
+        with_problem = self.with_problem(data)
+
+        classification = self.classification(data)
+
+        confusion_matrix = self.confusion_matrix(data)
+
+        result = dict()
+
+        result.update(total.items())
+        result.update(with_problem.items())
+        result.update(classification.items())
+        result.update(confusion_matrix.items())
 
         return result

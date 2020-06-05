@@ -74,7 +74,7 @@ class fosca:
         percent_not_prob = round(len(list_no_prob) * 100 / len(label), 2)
 
         result = {
-            'classicfied': [len(list_prob), percent_prob],
+            'classified': [len(list_prob), percent_prob],
             'noclassified': [len(list_no_prob), percent_not_prob]
         }
 

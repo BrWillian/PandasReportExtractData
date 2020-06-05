@@ -3,6 +3,7 @@ from classes.class_flash import flash
 from classes.class_entrepista import entrepista
 from classes.class_chuva_neblina import chuv_nebli
 from classes.class_fosca import fosca
+from classes.class_relatorio import Relatorio
 
 obj = flash('Análise Completa 08-04.csv')
 
@@ -37,4 +38,6 @@ print(obj5.classification())"""
 """print(obj5.with_problem())
 print(obj5.classification())
 print(obj5.confusion_matrix())"""
-print(obj3.beetween_lanes('V cami'))
+
+relatorio = Relatorio('Análise Completa 08-04.csv')
+relatorio.geral()
