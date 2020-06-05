@@ -40,6 +40,4 @@ print(obj5.classification())
 print(obj5.confusion_matrix())"""
 
 relatorio = Relatorio('Análise Completa 08-04.csv')
-relatorio.geral()
-relatorio.entrepista_veiculo()
-relatorio.entrepista_problema()
+relatorio.relatorio_completo()

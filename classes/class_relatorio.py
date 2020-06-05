@@ -9,11 +9,25 @@ from classes.class_refletiva import refletiva
 from classes.class_entrepista import entrepista
 from classes.class_fosca import fosca
 from datetime import date
-
+from prettytable import PrettyTable
 
 class Relatorio:
     def __init__(self, path):
         self.__path = path
+        self.__table = PrettyTable()
+
+    @staticmethod
+    def __escrevertitulo(titulo):
+        string = '\n------------------------------------------------------------------------------------------------' \
+                 '------------------------------------------------------------------------------------------\n '
+        with open('Relatorio-' + str(date.today()) + '.txt', 'a') as relatorio:
+            relatorio.write(string)
+            relatorio.write('# ' + titulo + '\n')
+
+    def __head(self, titulo):
+        self.__table.field_names = [titulo, 'IMAGENS', 'COM PROBLEMA', 'SEM PROBLEMA', 'CLASSIFICADOS',
+                                    'NÃO CLASSIFICADOS', 'VERDADEIRO POSITIVO', 'FALSO NEGATIVO', 'VERDADEIRO NEGATIVO',
+                                    'FALSO POSITIVO', 'ACURÁCIA']
 
     def __escreverlinhas_g(self, titulo, problema):
         pblm = problema(self.__path)
@@ -28,33 +42,11 @@ class Relatorio:
         tp, tp_p = pblm.confusion_matrix()['tp']
         acc = pblm.confusion_matrix()['acc']
 
-        arquivo = open('Relatorio-' + str(date.today()) + '.txt', 'a')
-
-        arquivo.write('{titulo}\t|{t}\t\t\t|{p} ({p_p}%)\t\t|{np} ({np_p}%)\t\t|{c} ({c_p}%)\t\t'
-                      '| {nc} ({nc_p}%)\t\t|{tp} ({tp_p}%)\t\t\t\t|{fn} ({fn_p}%)\t\t|{tn} ({tn_p}%)\t\t\t\t|{fp} '
-                      '({fp_p}%)\t\t|{acc}%\n'.format(titulo=titulo, t=t, p=p, p_p=p_p, np=sp, np_p=sp_p, c=c,
-                                                      c_p=c_p,
-                                                      nc=nc, nc_p=nc_p,
-                                                      tp=tp, tp_p=tp_p, fn=fn, fn_p=fn_p, tn=tn, tn_p=tn_p,
-                                                      fp=fp, fp_p=fp_p, acc=acc))
-        arquivo.close()
-
-    @staticmethod
-    def __escrevertitulo(titulo):
-        string = '#################################################################################################\n'
-        relatorio = open('Relatorio-' + str(date.today()) + '.txt', 'a')
-        relatorio.write(string)
-        relatorio.write(titulo + '\n')
-        relatorio.write(string)
-        relatorio.close()
-
-    @staticmethod
-    def __head():
-        arquivo = open('Relatorio-' + str(date.today()) + '.txt', 'a')
-        arquivo.write('REDE\t\t\t|IMAGENS\t\t|COM PROBLEMA\t\t|SEM PROBLEMA\t\t|CLASSIFICADOS\t\t|NÃO CLASSIFICADOS'
-                      '\t\t|VERDADEIRO POSITIVO\t\t|FALSO NEGATIVO\t\t|VERDADEIRO NEGATIVO\t\t|FALSO POSITIVO\t\t'
-                      '|ACURÁCIA\n')
-        arquivo.close()
+        self.__table.add_row([titulo, t, str(p) + ' (' + str(p_p) + '%)', str(sp) + ' (' + str(sp_p) + '%)',
+                              str(c) + ' (' + str(c_p) + '%)', str(nc) + ' (' + str(nc_p) + '%)',
+                              str(tn) + ' (' + str(tn_p) + '%)',
+                              str(fp) + ' (' + str(fp_p) + '%)', str(fn) + ' (' + str(fn_p) + '%)',
+                              str(tp) + ' (' + str(tp_p) + '%)', str(acc) + '%'])
 
     def __escreverlinhas_v(self, titulo, problema, coluna):
         pblm = problema(self.__path)
@@ -69,16 +61,11 @@ class Relatorio:
         tp, tp_p = pblm.general(coluna)['tp']
         acc = pblm.general(coluna)['acc']
 
-        arquivo = open('Relatorio-' + str(date.today()) + '.txt', 'a')
-
-        arquivo.write('{titulo}\t\t|{t}\t\t\t|{p} ({p_p}%)\t\t|{np} ({np_p}%)\t\t|{c} ({c_p}%)\t\t'
-                      '| {nc} ({nc_p}%)\t\t\t|{tp} ({tp_p}%)\t\t\t\t|{fn} ({fn_p}%)\t\t|{tn} ({tn_p}%)\t\t\t\t|{fp} '
-                      '({fp_p}%) \t\t|{acc}%\n'.format(titulo=titulo, t=t, p=p, p_p=p_p, np=sp, np_p=sp_p, c=c,
-                                                      c_p=c_p,
-                                                      nc=nc, nc_p=nc_p,
-                                                      tp=tp, tp_p=tp_p, fn=fn, fn_p=fn_p, tn=tn, tn_p=tn_p,
-                                                      fp=fp, fp_p=fp_p, acc=acc))
-        arquivo.close()
+        self.__table.add_row([titulo, t, str(p) + ' (' + str(p_p) + '%)', str(sp) + ' (' + str(sp_p) + '%)',
+                              str(c) + ' (' + str(c_p) + '%)', str(nc) + ' (' + str(nc_p) + '%)',
+                              str(tn) + ' (' + str(tn_p) + '%)',
+                              str(fp) + ' (' + str(fp_p) + '%)', str(fn) + ' (' + str(fn_p) + '%)',
+                              str(tp) + ' (' + str(tp_p) + '%)', str(acc) + '%'])
 
     def __escreverlinhas_p(self, titulo, problema, coluna):
         pblm = problema(self.__path)
@@ -93,47 +80,123 @@ class Relatorio:
         tp, tp_p = pblm.general(coluna)['tp']
         acc = pblm.general(coluna)['acc']
 
-        arquivo = open('Relatorio-' + str(date.today()) + '.txt', 'a')
+        self.__table.add_row([titulo, t, str(p) + ' (' + str(p_p) + '%)', str(sp) + ' (' + str(sp_p) + '%)',
+                              str(c) + ' (' + str(c_p) + '%)', str(nc) + ' (' + str(nc_p) + '%)',
+                              str(tn) + ' (' + str(tn_p) + '%)',
+                              str(fp) + ' (' + str(fp_p) + '%)', str(fn) + ' (' + str(fn_p) + '%)',
+                              str(tp) + ' (' + str(tp_p) + '%)', str(acc) + '%'])
 
-        arquivo.write('{titulo}\t|{t}\t\t\t|{p} ({p_p}%)\t\t\t|{np} ({np_p}%)\t\t|{c} ({c_p}%) \t\t'
-                      '|{nc} ({nc_p}%)\t\t\t|{tp} ({tp_p}%)\t\t\t\t\t|{fn} ({fn_p}%) \t\t|{tn} ({tn_p}%)\t\t\t\t|{fp} '
-                      '({fp_p}%)  \t\t|{acc}%\n'.format(titulo=titulo, t=t, p=p, p_p=p_p, np=sp, np_p=sp_p, c=c,
-                                                       c_p=c_p,
-                                                       nc=nc, nc_p=nc_p,
-                                                       tp=tp, tp_p=tp_p, fn=fn, fn_p=fn_p, tn=tn, tn_p=tn_p,
-                                                       fp=fp, fp_p=fp_p, acc=acc))
-        arquivo.close()
+    def __escreverlinhas_vp(self, titulo, problema, *colunas):
+        coluna1 = colunas[0]
+        coluna2 = colunas[1]
+        pblm = problema(self.__path)
+        t = str(pblm.general(coluna1, coluna2)['total'])
+        p, p_p = pblm.general(coluna1, coluna2)['problm']
+        sp, sp_p = pblm.general(coluna1, coluna2)['noproblm']
+        c, c_p = pblm.general(coluna1, coluna2)['classified']
+        nc, nc_p = pblm.general(coluna1, coluna2)['noclassified']
+        tn, tn_p = pblm.general(coluna1, coluna2)['tn']
+        fp, fp_p = pblm.general(coluna1, coluna2)['fp']
+        fn, fn_p = pblm.general(coluna1, coluna2)['fn']
+        tp, tp_p = pblm.general(coluna1, coluna2)['tp']
+        acc = pblm.general(coluna1)['acc']
 
-    def geral(self):
+        self.__table.add_row([titulo, t, str(p) + ' (' + str(p_p) + '%)', str(sp) + ' (' + str(sp_p) + '%)',
+                              str(c) + ' (' + str(c_p) + '%)', str(nc) + ' (' + str(nc_p) + '%)',
+                              str(tn) + ' (' + str(tn_p) + '%)',
+                              str(fp) + ' (' + str(fp_p) + '%)', str(fn) + ' (' + str(fn_p) + '%)',
+                              str(tp) + ' (' + str(tp_p) + '%)', str(acc) + '%'])
+
+    def __geral(self):
         self.__escrevertitulo('GERAL')
+        self.__table.clear_rows()
+        self.__head('REDE')
 
-        self.__head()
-
-        self.__escreverlinhas_g('REFLETIVA\t', refletiva)
-        self.__escreverlinhas_g('FLASH\t\t', flash)
-        self.__escreverlinhas_g('ENTREPISTA\t', entrepista)
+        self.__escreverlinhas_g('REFLETIVA', refletiva)
+        self.__escreverlinhas_g('FLASH', flash)
+        self.__escreverlinhas_g('ENTREPISTA', entrepista)
         self.__escreverlinhas_g('CHUVA/NEBLINA', chuv_nebli)
         self.__escreverlinhas_g('IMAGEM FOSCA', fosca)
 
-    def entrepista_veiculo(self):
-        self.__escrevertitulo('ENTREPISTA POR VEICULO')
-        self.__head()
-        self.__escreverlinhas_v('Moto\t', entrepista, 'V moto')
-        self.__escreverlinhas_v('Carro\t', entrepista, 'V car')
-        self.__escreverlinhas_v('Caminhão', entrepista, 'V cami')
-        self.__escreverlinhas_v('Ônibus\t', entrepista, 'V oni')
-        self.__escreverlinhas_v('Outro Tipo', entrepista, 'V outro')
+        with open('Relatorio-' + str(date.today()) + '.txt', 'a') as arquivo:
+            arquivo.write(str(self.__table))
 
-    def entrepista_problema(self):
-        self.__escrevertitulo('ENTREPISTA POR PROBLEMA')
-        self.__head()
-        self.__escreverlinhas_p('Chuva/Neblina', entrepista, 'L chu neb')
-        self.__escreverlinhas_p('Imagem Fosca', entrepista, 'L Fosca')
-        self.__escreverlinhas_p('Flash Problema', entrepista, 'L flash n')
-        self.__escreverlinhas_p('Refletiva Sol', entrepista, 'L refle sol')
-        self.__escreverlinhas_p('Refletiva Flash', entrepista, 'L refle flash')
-        self.__escreverlinhas_p('Autuadas\t', entrepista, 'L sem')
+    def __prob_veic(self, *args):
+        self.__escrevertitulo(args[0])
+        self.__table.clear_rows()
+        self.__head(args[1])
+        self.__escreverlinhas_v('Moto', args[2], 'V moto')
+        self.__escreverlinhas_v('Carro', args[2], 'V car')
+        self.__escreverlinhas_v('Caminhão', args[2], 'V cami')
+        self.__escreverlinhas_v('Ônibus', args[2], 'V oni')
+        self.__escreverlinhas_v('Outro Tipo', args[2], 'V outro')
+        with open('Relatorio-' + str(date.today()) + '.txt', 'a') as arquivo:
+            arquivo.write(str(self.__table))
 
+    def __prob_prob(self, *args):
+        self.__escrevertitulo(args[0])
+        self.__table.clear_rows()
+        self.__head(args[1])
+        self.__escreverlinhas_p('Chuva/Neblina', args[2], 'L chu neb')
+        self.__escreverlinhas_p('Imagem Fosca', args[2], 'L Fosca')
+        self.__escreverlinhas_p('Flash Problema', args[2], 'L flash n')
+        self.__escreverlinhas_p('Refletiva Sol', args[2], 'L refle sol')
+        self.__escreverlinhas_p('Refletiva Flash', args[2], 'L refle flash')
+        self.__escreverlinhas_p('Autuadas', args[2], 'L sem')
+        with open('Relatorio-' + str(date.today()) + '.txt', 'a') as arquivo:
+            arquivo.write(str(self.__table))
 
+    def __prob_veic_prob(self, *args):
+        self.__escrevertitulo(args[0])
+        self.__table.clear_rows()
+        self.__head(args[1])
+        self.__escreverlinhas_vp('Chuva/Neblina Moto', args[2], 'V moto', 'L chu neb')
+        self.__escreverlinhas_vp('Chuva/Neblina Carro', args[2], 'V car', 'L chu neb')
+        self.__escreverlinhas_vp('Chuva/Neblina Caminhão', args[2], 'V cami', 'L chu neb')
+        self.__escreverlinhas_vp('Chuva/Neblina Onibus', args[2], 'V oni', 'L chu neb')
+        self.__escreverlinhas_vp('Chuva/Neblina Outro', args[2], 'V outro', 'L chu neb')
+        # Imagem fosca
+        self.__escreverlinhas_vp('Imagem Fosca Moto', args[2], 'V moto', 'L Fosca')
+        self.__escreverlinhas_vp('Imagem Fosca Carro', args[2], 'V car', 'L Fosca')
+        self.__escreverlinhas_vp('Imagem Fosca Caminhão', args[2], 'V cami', 'L Fosca')
+        self.__escreverlinhas_vp('Imagem Fosca Onibus', args[2], 'V oni', 'L Fosca')
+        self.__escreverlinhas_vp('Imagem Fosca Outro', args[2], 'V outro', 'L Fosca')
+        # Flash / Problema
+        self.__escreverlinhas_vp('Flash/Problema Moto', args[2], 'V moto', 'L flash n')
+        self.__escreverlinhas_vp('Flash/Problema Carro', args[2], 'V car', 'L flash n')
+        self.__escreverlinhas_vp('Flash/Problema Caminhão', args[2], 'V cami', 'L flash n')
+        self.__escreverlinhas_vp('Flash/Problema Onibus', args[2], 'V oni', 'L flash n')
+        self.__escreverlinhas_vp('Flash/Problema Outro', args[2], 'V outro', 'L flash n')
+        # Refletiva / Sol
+        self.__escreverlinhas_vp('Refle/Sol Moto', args[2], 'V moto', 'L refle sol')
+        self.__escreverlinhas_vp('Refle/Sol Carro', args[2], 'V car', 'L refle sol')
+        self.__escreverlinhas_vp('Refle/Sol Caminhão', args[2], 'V cami', 'L refle sol')
+        self.__escreverlinhas_vp('Refle/Sol Onibus', args[2], 'V oni', 'L refle sol')
+        self.__escreverlinhas_vp('Refle/Sol Outro', args[2], 'V outro', 'L refle sol')
+        # Refletiva / Flash
+        self.__escreverlinhas_vp('Refle/Flash Moto', args[2], 'V moto', 'L refle sol')
+        self.__escreverlinhas_vp('Refle/Flash Carro', args[2], 'V car', 'L refle sol')
+        self.__escreverlinhas_vp('Refle/Flash Caminhão', args[2], 'V cami', 'L refle sol')
+        self.__escreverlinhas_vp('Refle/Flash Onibus', args[2], 'V oni', 'L refle sol')
+        self.__escreverlinhas_vp('Refle/Flash Outro', args[2], 'V outro', 'L refle sol')
+        # Autuadas
+        self.__escreverlinhas_vp('Autuada Moto', args[2], 'V moto', 'L sem')
+        self.__escreverlinhas_vp('Autuada Carro', args[2], 'V car', 'L sem')
+        self.__escreverlinhas_vp('Autuada Caminhão', args[2], 'V cami', 'L sem')
+        self.__escreverlinhas_vp('Autuada Onibus', args[2], 'V oni', 'L sem')
+        self.__escreverlinhas_vp('Autuada Outro', args[2], 'V outro', 'L sem')
 
+        with open('Relatorio-' + str(date.today()) + '.txt', 'a') as arquivo:
+            arquivo.write(str(self.__table))
+
+    def relatorio_completo(self):
+
+        self.__geral()
+        self.__prob_veic('ENTREPISTA POR VEICULO', 'VEICULO', entrepista)
+        self.__prob_prob('ENTREPISTA POR PROBLEMA', 'PROBLEMA', entrepista)
+        self.__prob_veic_prob('ENTREPISTA POR VEÍCULO E PROBLEMA', 'PROBLEMA/VEICULO', entrepista)
+
+        self.__prob_veic('FLASH POR VEICULO', 'VEICULO', flash)
+        self.__prob_prob('FLASH POR PROBLEMA', 'PROBLEMA', flash)
+        self.__prob_veic_prob('FLASH POR VEÍCULO E PROBLEMA', 'PROBLEMA/VEICULO', flash)
 
