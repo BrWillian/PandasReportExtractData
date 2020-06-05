@@ -46,3 +46,12 @@ class master:
         result.update(confusion_matrix.items())
 
         return result
+
+    def with_problem(self, data):
+        return {}
+
+    def classification(self, data):
+        return {}
+
+    def confusion_matrix(self, data):
+        return {}

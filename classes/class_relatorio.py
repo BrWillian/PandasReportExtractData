@@ -8,18 +8,25 @@ from classes.class_chuva_neblina import chuv_nebli
 from classes.class_refletiva import refletiva
 from classes.class_entrepista import entrepista
 from classes.class_fosca import fosca
-from datetime import date
+from datetime import date, datetime
 from prettytable import PrettyTable
+from os import remove
+from getpass import getuser
+
 
 class Relatorio:
     def __init__(self, path):
         self.__path = path
         self.__table = PrettyTable()
 
+        with open('Relatorio-' + str(date.today()) + '.txt', 'w') as relatorio:
+            relatorio.write('DATA: ' + str(datetime.now().strftime('%d/%m/%Y')) + '\nRELATÓRIO GERADO AS: '
+                            + str(datetime.now().strftime('%H:%M:%S')) + '\nPOR: ' + str(getuser()).upper())
+
     @staticmethod
     def __escrevertitulo(titulo):
-        string = '\n------------------------------------------------------------------------------------------------' \
-                 '------------------------------------------------------------------------------------------\n '
+        string = '\n\n------------------------------------------------------------------------------------------------' \
+                 '------------------------------------------------------------------------------------------\n'
         with open('Relatorio-' + str(date.today()) + '.txt', 'a') as relatorio:
             relatorio.write(string)
             relatorio.write('# ' + titulo + '\n')
@@ -190,13 +197,15 @@ class Relatorio:
             arquivo.write(str(self.__table))
 
     def relatorio_completo(self):
+        try:
+            self.__geral()
+            self.__prob_veic('ENTREPISTA POR VEICULO', 'VEICULO', entrepista)
+            self.__prob_prob('ENTREPISTA POR PROBLEMA', 'PROBLEMA', entrepista)
+            self.__prob_veic_prob('ENTREPISTA POR VEÍCULO E PROBLEMA', 'PROBLEMA/VEICULO', entrepista)
 
-        self.__geral()
-        self.__prob_veic('ENTREPISTA POR VEICULO', 'VEICULO', entrepista)
-        self.__prob_prob('ENTREPISTA POR PROBLEMA', 'PROBLEMA', entrepista)
-        self.__prob_veic_prob('ENTREPISTA POR VEÍCULO E PROBLEMA', 'PROBLEMA/VEICULO', entrepista)
-
-        self.__prob_veic('FLASH POR VEICULO', 'VEICULO', flash)
-        self.__prob_prob('FLASH POR PROBLEMA', 'PROBLEMA', flash)
-        self.__prob_veic_prob('FLASH POR VEÍCULO E PROBLEMA', 'PROBLEMA/VEICULO', flash)
-
+            self.__prob_veic('FLASH POR VEICULO', 'VEICULO', flash)
+            self.__prob_prob('FLASH POR PROBLEMA', 'PROBLEMA', flash)
+            self.__prob_veic_prob('FLASH POR VEÍCULO E PROBLEMA', 'PROBLEMA/VEICULO', flash)
+        except:
+            remove('Relatorio-' + str(date.today()) + '.txt')
+            print('Arquivo no formato inválido!')
