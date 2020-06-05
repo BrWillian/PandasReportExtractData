@@ -5,25 +5,13 @@
 """
 import pandas as pd
 from sklearn.metrics import confusion_matrix
-from classes.functions import merge_and, merge_or
+from classes.functions import merge_or
 
 
 class refletiva:
     def __init__(self, data):
         self._data = pd.read_csv(data)
         self._data = pd.DataFrame(self._data)
-        self._keys = self._data.keys()
-        self._total = 0
-
-        """
-        self._keys
-            0: 'Nome do Arquivo', 1: 'M CHUVA', 2: 'M FLASH', 3: 'M ENTRE', 4: 'M REFLE',
-            5: 'M NEBLI', 6: 'M FOSCA', 7: 'L chu neb', 8: 'L entre', 9: 'L erro detec',
-            10: 'L flash n', 11: 'L Fosca', 12: 'L encob', 13: 'L refle flash', 14: 'L refle sol',
-            15: 'L sem', 16: 'P dia', 17: 'P noite', 18: 'C front', 19: 'C lat', 20: 'C tras', 21: 'V cami',
-            22: 'V car', 23: 'V moto', 24: 'V outro', 25: 'V oni', 26: 'O amb', 27: 'O bomb', 28: 'O pol',
-            29: 'L descart', 30: 'L duvida', 31: 'ANTT', 32: 'GOINFRA'
-        """
 
     def total_images(self, data=None):
         try:
@@ -108,7 +96,7 @@ class refletiva:
 
         return result
 
-    def reflective(self, *columns):
+    def general(self, *columns):
         data = self._data
         if len(columns) < 2:
             data = data[(data[columns[0]] == True)]
