@@ -4,7 +4,6 @@
 @ 29/05/2020
 """
 from sklearn.metrics import confusion_matrix
-from classes.functions import merge_or
 from classes.class_master import master
 
 
@@ -16,9 +15,11 @@ class chuv_nebli(master):
         data_problem = data
 
         try:
-            label = data_problem['L chu neb']
+            data_problem = self.merge_or(data_problem, 'M CHUV NEB', 'M CHUVA', 'M NEBLI')
+            label = data_problem['M CHUV NEB']
         except:
-            label = self._data['L chu neb']
+            data_problem = self.merge_or(self._data, 'M CHUV NEB', 'M CHUVA', 'M NEBLI')
+            label = data_problem['M CHUV NEB']
 
         list_no_prob = list(filter(lambda x: not x, label))
         list_prob = list(filter(lambda x: x, label))
@@ -38,11 +39,9 @@ class chuv_nebli(master):
         data_problem = data
 
         try:
-            data_problem = merge_or(data_problem, 'M CHUV NEB', 'M CHUVA', 'M NEBLI')
-            label = data_problem['M CHUV NEB']
+            label = data_problem['L chu neb']
         except:
-            data_problem = merge_or(self._data, 'M CHUV NEB', 'M CHUVA', 'M NEBLI')
-            label = data_problem['M CHUV NEB']
+            label = self._data['L chu neb']
 
         list_no_prob = list(filter(lambda x: not x, label))
         list_prob = list(filter(lambda x: x, label))
@@ -61,23 +60,28 @@ class chuv_nebli(master):
         data_problem = data
 
         try:
-            data_problem = merge_or(data_problem, 'M CHUV NEB', 'M CHUVA', 'M NEBLI')
+            data_problem = self.merge_or(data_problem, 'M CHUV NEB', 'M CHUVA', 'M NEBLI')
             data = data_problem[['M CHUV NEB', 'L chu neb']]
         except:
-            data_problem = merge_or(self._data, 'M CHUV NEB', 'M CHUVA', 'M NEBLI')
+            data_problem = self.merge_or(self._data, 'M CHUV NEB', 'M CHUVA', 'M NEBLI')
             data = data_problem[['M CHUV NEB', 'L chu neb']]
 
         y_true = list(data['M CHUV NEB'])
         y_pred = list(data['L chu neb'])
         tn, fp, fn, tp = confusion_matrix(y_true, y_pred).ravel()
 
+        positivos = data[data['L chu neb'] == True]
+        negativos = data[data['L chu neb'] == False]
+
         total = len(data)
+        totalp = len(positivos)
+        totaln = len(negativos)
 
         result = {
-            'tn': [tn, round(tn * 100 / total, 2)],
-            'fp': [fp, round(fp * 100 / total, 2)],
-            'fn': [fn, round(fn * 100 / total, 2)],
-            'tp': [tp, round(tp * 100 / total, 2)],
+            'tn': [tn, round(tn * 100 / totaln, 2)],
+            'fp': [fp, round(fp * 100 / totalp, 2)],
+            'fn': [fn, round(fn * 100 / totaln, 2)],
+            'tp': [tp, round(tp * 100 / totalp, 2)],
             'acc': round((tp + tn) / total * 100, 2)
         }
 

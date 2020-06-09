@@ -51,9 +51,9 @@ class Relatorio:
 
         self.__table.add_row([titulo, t, str(p) + ' (' + str(p_p) + '%)', str(sp) + ' (' + str(sp_p) + '%)',
                               str(c) + ' (' + str(c_p) + '%)', str(nc) + ' (' + str(nc_p) + '%)',
-                              str(tn) + ' (' + str(tn_p) + '%)',
-                              str(fp) + ' (' + str(fp_p) + '%)', str(fn) + ' (' + str(fn_p) + '%)',
-                              str(tp) + ' (' + str(tp_p) + '%)', str(acc) + '%'])
+                              str(tp) + ' (' + str(tp_p) + '%)',
+                              str(fn) + ' (' + str(fn_p) + '%)', str(tn) + ' (' + str(tn_p) + '%)',
+                              str(fp) + ' (' + str(fp_p) + '%)', str(acc) + '%'])
 
     def __escreverlinhas_v(self, titulo, problema, coluna):
         pblm = problema(self.__path)
@@ -70,9 +70,9 @@ class Relatorio:
 
         self.__table.add_row([titulo, t, str(p) + ' (' + str(p_p) + '%)', str(sp) + ' (' + str(sp_p) + '%)',
                               str(c) + ' (' + str(c_p) + '%)', str(nc) + ' (' + str(nc_p) + '%)',
-                              str(tn) + ' (' + str(tn_p) + '%)',
-                              str(fp) + ' (' + str(fp_p) + '%)', str(fn) + ' (' + str(fn_p) + '%)',
-                              str(tp) + ' (' + str(tp_p) + '%)', str(acc) + '%'])
+                              str(tp) + ' (' + str(tp_p) + '%)',
+                              str(fn) + ' (' + str(fn_p) + '%)', str(tn) + ' (' + str(tn_p) + '%)',
+                              str(fp) + ' (' + str(fp_p) + '%)', str(acc) + '%'])
 
     def __escreverlinhas_p(self, titulo, problema, coluna):
         pblm = problema(self.__path)
@@ -89,9 +89,9 @@ class Relatorio:
 
         self.__table.add_row([titulo, t, str(p) + ' (' + str(p_p) + '%)', str(sp) + ' (' + str(sp_p) + '%)',
                               str(c) + ' (' + str(c_p) + '%)', str(nc) + ' (' + str(nc_p) + '%)',
-                              str(tn) + ' (' + str(tn_p) + '%)',
-                              str(fp) + ' (' + str(fp_p) + '%)', str(fn) + ' (' + str(fn_p) + '%)',
-                              str(tp) + ' (' + str(tp_p) + '%)', str(acc) + '%'])
+                              str(tp) + ' (' + str(tp_p) + '%)',
+                              str(fn) + ' (' + str(fn_p) + '%)', str(tn) + ' (' + str(tn_p) + '%)',
+                              str(fp) + ' (' + str(fp_p) + '%)', str(acc) + '%'])
 
     def __escreverlinhas_vp(self, titulo, problema, *colunas):
         coluna1 = colunas[0]
@@ -110,9 +110,9 @@ class Relatorio:
 
         self.__table.add_row([titulo, t, str(p) + ' (' + str(p_p) + '%)', str(sp) + ' (' + str(sp_p) + '%)',
                               str(c) + ' (' + str(c_p) + '%)', str(nc) + ' (' + str(nc_p) + '%)',
-                              str(tn) + ' (' + str(tn_p) + '%)',
-                              str(fp) + ' (' + str(fp_p) + '%)', str(fn) + ' (' + str(fn_p) + '%)',
-                              str(tp) + ' (' + str(tp_p) + '%)', str(acc) + '%'])
+                              str(tp) + ' (' + str(tp_p) + '%)',
+                              str(fn) + ' (' + str(fn_p) + '%)', str(tn) + ' (' + str(tn_p) + '%)',
+                              str(fp) + ' (' + str(fp_p) + '%)', str(acc) + '%'])
 
     def __geral(self):
         self.__escrevertitulo('GERAL')
@@ -122,7 +122,7 @@ class Relatorio:
         self.__escreverlinhas_g('REFLETIVA', refletiva)
         self.__escreverlinhas_g('FLASH', flash)
         self.__escreverlinhas_g('ENTREPISTA', entrepista)
-        self.__escreverlinhas_g('CHUVA/NEBLINA', chuv_nebli)
+        self.__escreverlinhas_g('CHUVA / NEBLINA', chuv_nebli)
         self.__escreverlinhas_g('IMAGEM FOSCA', fosca)
 
         with open('Relatorio-' + str(date.today()) + '.txt', 'a') as arquivo:
@@ -144,11 +144,11 @@ class Relatorio:
         self.__escrevertitulo(args[0])
         self.__table.clear_rows()
         self.__head(args[1])
-        self.__escreverlinhas_p('Chuva/Neblina', args[2], 'L chu neb')
+        self.__escreverlinhas_p('Chuva / Neblina', args[2], 'L chu neb')
         self.__escreverlinhas_p('Imagem Fosca', args[2], 'L Fosca')
-        self.__escreverlinhas_p('Flash Problema', args[2], 'L flash n')
-        self.__escreverlinhas_p('Refletiva Sol', args[2], 'L refle sol')
-        self.__escreverlinhas_p('Refletiva Flash', args[2], 'L refle flash')
+        self.__escreverlinhas_p('Flash / Problema', args[2], 'L flash n')
+        self.__escreverlinhas_p('Refletiva / Sol', args[2], 'L refle sol')
+        self.__escreverlinhas_p('Refletiva / Flash', args[2], 'L refle flash')
         self.__escreverlinhas_p('Autuadas', args[2], 'L sem')
         with open('Relatorio-' + str(date.today()) + '.txt', 'a') as arquivo:
             arquivo.write(str(self.__table))
@@ -157,55 +157,64 @@ class Relatorio:
         self.__escrevertitulo(args[0])
         self.__table.clear_rows()
         self.__head(args[1])
-        self.__escreverlinhas_vp('Chuva/Neblina Moto', args[2], 'V moto', 'L chu neb')
-        self.__escreverlinhas_vp('Chuva/Neblina Carro', args[2], 'V car', 'L chu neb')
-        self.__escreverlinhas_vp('Chuva/Neblina Caminhão', args[2], 'V cami', 'L chu neb')
-        self.__escreverlinhas_vp('Chuva/Neblina Onibus', args[2], 'V oni', 'L chu neb')
-        self.__escreverlinhas_vp('Chuva/Neblina Outro', args[2], 'V outro', 'L chu neb')
+        self.__escreverlinhas_vp('Chuva / Neblina - Moto', args[2], 'V moto', 'L chu neb')
+        self.__escreverlinhas_vp('Chuva / Neblina - Carro', args[2], 'V car', 'L chu neb')
+        self.__escreverlinhas_vp('Chuva / Neblina - Caminhão', args[2], 'V cami', 'L chu neb')
+        self.__escreverlinhas_vp('Chuva / Neblina - Onibus', args[2], 'V oni', 'L chu neb')
+        self.__escreverlinhas_vp('Chuva / Neblina - Outro', args[2], 'V outro', 'L chu neb')
         # Imagem fosca
-        self.__escreverlinhas_vp('Imagem Fosca Moto', args[2], 'V moto', 'L Fosca')
-        self.__escreverlinhas_vp('Imagem Fosca Carro', args[2], 'V car', 'L Fosca')
-        self.__escreverlinhas_vp('Imagem Fosca Caminhão', args[2], 'V cami', 'L Fosca')
-        self.__escreverlinhas_vp('Imagem Fosca Onibus', args[2], 'V oni', 'L Fosca')
-        self.__escreverlinhas_vp('Imagem Fosca Outro', args[2], 'V outro', 'L Fosca')
+        self.__escreverlinhas_vp('Imagem Fosca - Moto', args[2], 'V moto', 'L Fosca')
+        self.__escreverlinhas_vp('Imagem Fosca - Carro', args[2], 'V car', 'L Fosca')
+        self.__escreverlinhas_vp('Imagem Fosca - Caminhão', args[2], 'V cami', 'L Fosca')
+        self.__escreverlinhas_vp('Imagem Fosca - Onibus', args[2], 'V oni', 'L Fosca')
+        self.__escreverlinhas_vp('Imagem Fosca - Outro', args[2], 'V outro', 'L Fosca')
         # Flash / Problema
-        self.__escreverlinhas_vp('Flash/Problema Moto', args[2], 'V moto', 'L flash n')
-        self.__escreverlinhas_vp('Flash/Problema Carro', args[2], 'V car', 'L flash n')
-        self.__escreverlinhas_vp('Flash/Problema Caminhão', args[2], 'V cami', 'L flash n')
-        self.__escreverlinhas_vp('Flash/Problema Onibus', args[2], 'V oni', 'L flash n')
-        self.__escreverlinhas_vp('Flash/Problema Outro', args[2], 'V outro', 'L flash n')
+        self.__escreverlinhas_vp('Flash / Problema - Moto', args[2], 'V moto', 'L flash n')
+        self.__escreverlinhas_vp('Flash / Problema - Carro', args[2], 'V car', 'L flash n')
+        self.__escreverlinhas_vp('Flash / Problema - Caminhão', args[2], 'V cami', 'L flash n')
+        self.__escreverlinhas_vp('Flash / Problema - Onibus', args[2], 'V oni', 'L flash n')
+        self.__escreverlinhas_vp('Flash / Problema -  Outro', args[2], 'V outro', 'L flash n')
         # Refletiva / Sol
-        self.__escreverlinhas_vp('Refle/Sol Moto', args[2], 'V moto', 'L refle sol')
-        self.__escreverlinhas_vp('Refle/Sol Carro', args[2], 'V car', 'L refle sol')
-        self.__escreverlinhas_vp('Refle/Sol Caminhão', args[2], 'V cami', 'L refle sol')
-        self.__escreverlinhas_vp('Refle/Sol Onibus', args[2], 'V oni', 'L refle sol')
-        self.__escreverlinhas_vp('Refle/Sol Outro', args[2], 'V outro', 'L refle sol')
+        self.__escreverlinhas_vp('Refletiva / Sol - Moto', args[2], 'V moto', 'L refle sol')
+        self.__escreverlinhas_vp('Refletiva / Sol - Carro', args[2], 'V car', 'L refle sol')
+        self.__escreverlinhas_vp('Refletiva / Sol - Caminhão', args[2], 'V cami', 'L refle sol')
+        self.__escreverlinhas_vp('Refletiva / Sol - Onibus', args[2], 'V oni', 'L refle sol')
+        self.__escreverlinhas_vp('Refletiva / Sol - Outro', args[2], 'V outro', 'L refle sol')
         # Refletiva / Flash
-        self.__escreverlinhas_vp('Refle/Flash Moto', args[2], 'V moto', 'L refle sol')
-        self.__escreverlinhas_vp('Refle/Flash Carro', args[2], 'V car', 'L refle sol')
-        self.__escreverlinhas_vp('Refle/Flash Caminhão', args[2], 'V cami', 'L refle sol')
-        self.__escreverlinhas_vp('Refle/Flash Onibus', args[2], 'V oni', 'L refle sol')
-        self.__escreverlinhas_vp('Refle/Flash Outro', args[2], 'V outro', 'L refle sol')
+        self.__escreverlinhas_vp('Refletiva / Flash - Moto', args[2], 'V moto', 'L refle sol')
+        self.__escreverlinhas_vp('Refletiva / Flash - Carro', args[2], 'V car', 'L refle sol')
+        self.__escreverlinhas_vp('Refletiva / Flash - Caminhão', args[2], 'V cami', 'L refle sol')
+        self.__escreverlinhas_vp('Refletiva / Flash - Onibus', args[2], 'V oni', 'L refle sol')
+        self.__escreverlinhas_vp('Refletiva / Flash - Outro', args[2], 'V outro', 'L refle sol')
         # Autuadas
-        self.__escreverlinhas_vp('Autuada Moto', args[2], 'V moto', 'L sem')
-        self.__escreverlinhas_vp('Autuada Carro', args[2], 'V car', 'L sem')
-        self.__escreverlinhas_vp('Autuada Caminhão', args[2], 'V cami', 'L sem')
-        self.__escreverlinhas_vp('Autuada Onibus', args[2], 'V oni', 'L sem')
-        self.__escreverlinhas_vp('Autuada Outro', args[2], 'V outro', 'L sem')
+        self.__escreverlinhas_vp('Autuada - Moto', args[2], 'V moto', 'L sem')
+        self.__escreverlinhas_vp('Autuada - Carro', args[2], 'V car', 'L sem')
+        self.__escreverlinhas_vp('Autuada - Caminhão', args[2], 'V cami', 'L sem')
+        self.__escreverlinhas_vp('Autuada - Onibus', args[2], 'V oni', 'L sem')
+        self.__escreverlinhas_vp('Autuada - Outro', args[2], 'V outro', 'L sem')
 
         with open('Relatorio-' + str(date.today()) + '.txt', 'a') as arquivo:
             arquivo.write(str(self.__table))
 
     def relatorio_completo(self):
-        try:
+
             self.__geral()
             self.__prob_veic('ENTREPISTA POR VEICULO', 'VEICULO', entrepista)
             self.__prob_prob('ENTREPISTA POR PROBLEMA', 'PROBLEMA', entrepista)
-            self.__prob_veic_prob('ENTREPISTA POR VEÍCULO E PROBLEMA', 'PROBLEMA/VEICULO', entrepista)
+            self.__prob_veic_prob('ENTREPISTA POR VEÍCULO E PROBLEMA', 'PROBLEMA / VEICULO', entrepista)
 
             self.__prob_veic('FLASH POR VEICULO', 'VEICULO', flash)
             self.__prob_prob('FLASH POR PROBLEMA', 'PROBLEMA', flash)
-            self.__prob_veic_prob('FLASH POR VEÍCULO E PROBLEMA', 'PROBLEMA/VEICULO', flash)
-        except:
-            remove('Relatorio-' + str(date.today()) + '.txt')
-            print('Arquivo no formato inválido!')
+            self.__prob_veic_prob('FLASH POR VEÍCULO E PROBLEMA', 'PROBLEMA / VEICULO', flash)
+
+            self.__prob_veic('FLASH POR VEICULO', 'VEICULO', fosca)
+            self.__prob_prob('FLASH POR PROBLEMA', 'PROBLEMA', flash)
+            self.__prob_veic_prob('FLASH POR VEÍCULO E PROBLEMA', 'PROBLEMA / VEICULO', fosca)
+
+            self.__prob_veic('FLASH POR VEICULO', 'VEICULO', refletiva)
+            self.__prob_prob('FLASH POR PROBLEMA', 'PROBLEMA', refletiva)
+            self.__prob_veic_prob('FLASH POR VEÍCULO E PROBLEMA', 'PROBLEMA / VEICULO', refletiva)
+
+            self.__prob_veic('FLASH POR VEICULO', 'VEICULO', chuv_nebli)
+            self.__prob_prob('FLASH POR PROBLEMA', 'PROBLEMA', chuv_nebli)
+            self.__prob_veic_prob('FLASH POR VEÍCULO E PROBLEMA', 'PROBLEMA / VEICULO', chuv_nebli)

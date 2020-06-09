@@ -15,9 +15,9 @@ class entrepista(master):
         data_problem = data
 
         try:
-            label = data_problem['L entre']
+            label = data_problem['M ENTRE']
         except:
-            label = self._data['L entre']
+            label = self._data['M ENTRE']
 
         list_no_prob = list(filter(lambda x: not x, label))
         list_prob = list(filter(lambda x: x, label))
@@ -37,9 +37,9 @@ class entrepista(master):
         data_classification = data
 
         try:
-            label = data_classification['M ENTRE']
+            label = data_classification['L entre']
         except:
-            label = self._data['M ENTRE']
+            label = self._data['L entre']
 
         list_no_prob = list(filter(lambda x: not x, label))
         list_prob = list(filter(lambda x: x, label))
@@ -55,7 +55,6 @@ class entrepista(master):
         return result
 
     def confusion_matrix(self, data=None):
-
         try:
             data = data[['M ENTRE', 'L entre']]
         except:
@@ -65,13 +64,18 @@ class entrepista(master):
         y_pred = list(data['L entre'])
         tn, fp, fn, tp = confusion_matrix(y_true, y_pred).ravel()
 
+        positivos = data[data['L entre'] == True]
+        negativos = data[data['L entre'] == False]
+
         total = len(data)
+        totalp = len(positivos)
+        totaln = len(negativos)
 
         result = {
-            'tn': [tn, round(tn * 100 / total, 2)],
-            'fp': [fp, round(fp * 100 / total, 2)],
-            'fn': [fn, round(fn * 100 / total, 2)],
-            'tp': [tp, round(tp * 100 / total, 2)],
+            'tn': [tn, round(tn * 100 / totaln, 2)],
+            'fp': [fp, round(fp * 100 / totalp, 2)],
+            'fn': [fn, round(fn * 100 / totaln, 2)],
+            'tp': [tp, round(tp * 100 / totalp, 2)],
             'acc': round((tp + tn) / total * 100, 2)
         }
 

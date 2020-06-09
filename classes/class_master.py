@@ -4,12 +4,27 @@
 @ 29/05/2020
 """
 import pandas as pd
+import warnings
+
+warnings.simplefilter(action="ignore", category=RuntimeWarning)
 
 
 class master:
     def __init__(self, data):
         self._data = pd.read_csv(data)
         self._data = pd.DataFrame(self._data)
+
+    @staticmethod
+    def merge_or(data, new_column_name='new_column', *column):
+        data_problem = pd.DataFrame(data)
+        data_problem[new_column_name] = (data_problem[column[0]] | data_problem[column[1]])
+        return data
+
+    @staticmethod
+    def merge_and(data, new_column_name='new_column', *column):
+        data_problem = pd.DataFrame(data)
+        data_problem[new_column_name] = (data_problem[column[0]] & data_problem[column[1]])
+        return data
 
     def total_images(self, data=None):
         try:

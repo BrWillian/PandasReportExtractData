@@ -15,9 +15,9 @@ class flash(master):
         data_problem = data
 
         try:
-            label = data_problem['L flash n']
+            label = data_problem['M FLASH']
         except:
-            label = self._data['L flash n']
+            label = self._data['M FLASH']
 
         list_no_prob = list(filter(lambda x: not x, label))
         list_prob = list(filter(lambda x: x, label))
@@ -34,12 +34,12 @@ class flash(master):
 
     def classification(self, data=None):
 
-        data_classification = data
+        data_problem = data
 
         try:
-            label = data_classification['M FLASH']
+            label = data_problem['L flash n']
         except:
-            label = self._data['M FLASH']
+            label = self._data['L flash n']
 
         list_no_prob = list(filter(lambda x: not x, label))
         list_prob = list(filter(lambda x: x, label))
@@ -65,13 +65,18 @@ class flash(master):
         y_pred = list(data['L flash n'])
         tn, fp, fn, tp = confusion_matrix(y_true, y_pred).ravel()
 
+        positivos = data[data['L flash n'] == True]
+        negativos = data[data['L flash n'] == False]
+
         total = len(data)
+        totalp = len(positivos)
+        totaln = len(negativos)
 
         result = {
-            'tn': [tn, round(tn * 100 / total, 2)],
-            'fp': [fp, round(fp * 100 / total, 2)],
-            'fn': [fn, round(fn * 100 / total, 2)],
-            'tp': [tp, round(tp * 100 / total, 2)],
+            'tn': [tn, round(tn * 100 / totaln, 2)],
+            'fp': [fp, round(fp * 100 / totalp, 2)],
+            'fn': [fn, round(fn * 100 / totaln, 2)],
+            'tp': [tp, round(tp * 100 / totalp, 2)],
             'acc': round((tp + tn) / total * 100, 2)
         }
 

@@ -15,9 +15,9 @@ class fosca(master):
         data_problem = data
 
         try:
-            label = data_problem['L Fosca']
+            label = data_problem['M FOSCA']
         except:
-            label = self._data['L Fosca']
+            label = self._data['M FOSCA']
 
         list_no_prob = list(filter(lambda x: not x, label))
         list_prob = list(filter(lambda x: x, label))
@@ -34,12 +34,12 @@ class fosca(master):
 
     def classification(self, data=None):
 
-        data_classification = data
+        data_problem = data
 
         try:
-            label = data_classification['M FOSCA']
+            label = data_problem['L Fosca']
         except:
-            label = self._data['M FOSCA']
+            label = self._data['L Fosca']
 
         list_no_prob = list(filter(lambda x: not x, label))
         list_prob = list(filter(lambda x: x, label))
@@ -65,13 +65,18 @@ class fosca(master):
         y_pred = list(data['L Fosca'])
         tn, fp, fn, tp = confusion_matrix(y_true, y_pred).ravel()
 
+        positivos = data[data['L Fosca'] == True]
+        negativos = data[data['L Fosca'] == False]
+
         total = len(data)
+        totalp = len(positivos)
+        totaln = len(negativos)
 
         result = {
-            'tn': [tn, round(tn * 100 / total, 2)],
-            'fp': [fp, round(fp * 100 / total, 2)],
-            'fn': [fn, round(fn * 100 / total, 2)],
-            'tp': [tp, round(tp * 100 / total, 2)],
+            'tn': [tn, round(tn * 100 / totaln, 2)],
+            'fp': [fp, round(fp * 100 / totalp, 2)],
+            'fn': [fn, round(fn * 100 / totaln, 2)],
+            'tp': [tp, round(tp * 100 / totalp, 2)],
             'acc': round((tp + tn) / total * 100, 2)
         }
 
