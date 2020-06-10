@@ -4,10 +4,6 @@
 @ 29/05/2020
 """
 import pandas as pd
-import warnings
-
-warnings.simplefilter(action="ignore", category=RuntimeWarning)
-
 
 class master:
     def __init__(self, data):

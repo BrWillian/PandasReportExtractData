@@ -72,11 +72,24 @@ class flash(master):
         totalp = len(positivos)
         totaln = len(negativos)
 
+        if totalp == 0:
+            fp_p = 0.0
+            tp_p = 0.0
+        else:
+            fp_p = round(fp * 100 / totalp, 2)
+            tp_p = round(tp * 100 / totalp, 2)
+
+        if totaln == 0:
+            fn_p = 0.0
+            tn_p = 0.0
+        else:
+            fn_p = round(fn * 100 / totaln, 2)
+            tn_p = round(tn * 100 / totaln, 2)
         result = {
-            'tn': [tn, round(tn * 100 / totaln, 2)],
-            'fp': [fp, round(fp * 100 / totalp, 2)],
-            'fn': [fn, round(fn * 100 / totaln, 2)],
-            'tp': [tp, round(tp * 100 / totalp, 2)],
+            'tn': [tn, tn_p],
+            'fp': [fp, fp_p],
+            'fn': [fn, fn_p],
+            'tp': [tp, tp_p],
             'acc': round((tp + tn) / total * 100, 2)
         }
 
