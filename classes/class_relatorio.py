@@ -10,7 +10,6 @@ from classes.class_entrepista import entrepista
 from classes.class_fosca import fosca
 from datetime import date, datetime
 from prettytable import PrettyTable
-from os import remove
 from getpass import getuser
 
 
@@ -207,14 +206,14 @@ class Relatorio:
             self.__prob_prob('FLASH POR PROBLEMA', 'PROBLEMA', flash)
             self.__prob_veic_prob('FLASH POR VEÍCULO E PROBLEMA', 'PROBLEMA / VEICULO', flash)
 
-            self.__prob_veic('FLASH POR VEICULO', 'VEICULO', fosca)
-            self.__prob_prob('FLASH POR PROBLEMA', 'PROBLEMA', flash)
-            self.__prob_veic_prob('FLASH POR VEÍCULO E PROBLEMA', 'PROBLEMA / VEICULO', fosca)
+            self.__prob_veic('IMAGEM FOSCA POR VEÍCULO', 'VEICULO', fosca)
+            self.__prob_prob('IMAGEM FOSCA POR PROBLEMA', 'PROBLEMA', flash)
+            self.__prob_veic_prob('IMAGEM FOSCA POR VEÍCULO E PROBLEMA', 'PROBLEMA / VEICULO', fosca)
 
-            self.__prob_veic('FLASH POR VEICULO', 'VEICULO', refletiva)
-            self.__prob_prob('FLASH POR PROBLEMA', 'PROBLEMA', refletiva)
-            self.__prob_veic_prob('FLASH POR VEÍCULO E PROBLEMA', 'PROBLEMA / VEICULO', refletiva)
+            self.__prob_veic('REFLETIVA POR VEICULO', 'VEICULO', refletiva)
+            self.__prob_prob('REFLETIVA POR PROBLEMA', 'PROBLEMA', refletiva)
+            self.__prob_veic_prob('REFLETIVA POR VEÍCULO E PROBLEMA', 'PROBLEMA / VEICULO', refletiva)
 
-            self.__prob_veic('FLASH POR VEICULO', 'VEICULO', chuv_nebli)
-            self.__prob_prob('FLASH POR PROBLEMA', 'PROBLEMA', chuv_nebli)
-            self.__prob_veic_prob('FLASH POR VEÍCULO E PROBLEMA', 'PROBLEMA / VEICULO', chuv_nebli)
+            self.__prob_veic('CHUVA E NEBLINA INVERSA POR VEICULO', 'VEICULO', chuv_nebli)
+            self.__prob_prob('CHUVA E NEBLINA INVERSA POR PROBLEMA', 'PROBLEMA', chuv_nebli)
+            self.__prob_veic_prob('CHUVA E NEBLINA INVERSA VEÍCULO E PROBLEMA', 'PROBLEMA / VEICULO', chuv_nebli)
